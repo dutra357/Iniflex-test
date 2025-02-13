@@ -61,9 +61,8 @@ public class Principal {
     public static void concederAumento(List<Funcionario> lista) {
 
         for (Funcionario funcionario : lista) {
-            funcionario.setSalario(
-                    funcionario.getSalario().multiply(new BigDecimal("1.1"))
-            );
+            BigDecimal dezPorCento = funcionario.getSalario().divide(new BigDecimal("10"), 2);
+            funcionario.setSalario(funcionario.getSalario().add(dezPorCento));
         }
     }
 
@@ -196,7 +195,7 @@ public class Principal {
             //Intelliji já sugere o metodo .divide() com arredondamento do BigDecimal, onde sem ele da erro.
             BigDecimal salariosMinimos = funcionario.getSalario().divide(baseMinimo, 2);
 
-            System.out.println("O funcionário " +
+            System.out.println(
                     funcionario.getNome() + " " +
             "recebe " + salariosMinimos + ", tendo a função de: " +
                     funcionario.getFuncao());
