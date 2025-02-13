@@ -10,7 +10,7 @@ public class Principal {
 
     public static List<Funcionario> inserirFuncionarios() {
         Funcionario maria = new Funcionario("Maria", LocalDate.of(2000, 10,18), new BigDecimal("2009.44"), "Operador");
-        Funcionario joao = new Funcionario("João", LocalDate.of(1990, 5,12), new BigDecimal("2284.38"), "Operador");
+        Funcionario joao = new Funcionario("Joao", LocalDate.of(1990, 5,12), new BigDecimal("2284.38"), "Operador");
         Funcionario caio = new Funcionario("Caio", LocalDate.of(1961, 5,2), new BigDecimal("9836.14"), "Coordenador");
         Funcionario miguel = new Funcionario("Miguel", LocalDate.of(1988, 10,14), new BigDecimal("19119.88"), "Diretor");
         Funcionario alice = new Funcionario("Alice", LocalDate.of(1995, 1,5), new BigDecimal("2234.68"), "Recepcionista");
@@ -22,10 +22,19 @@ public class Principal {
 
         List<Funcionario> funcionarios = new ArrayList<>(Arrays.asList(maria, joao, caio, miguel,
                 alice, heitor, arthur, laura, heloisa, helena));
+
         return funcionarios;
     }
 
-    public static void removerJoao() {}
+    public static void removerJoao(List<Funcionario> lista) {
+        for (Funcionario funcionario : lista) {
+            if (funcionario.getNome() == "Joao") {
+
+                System.out.println("Removendo Joao...");
+                lista.remove(funcionario);
+            }
+        }
+    }
 
     public static void imprimirTodos() {}
 
