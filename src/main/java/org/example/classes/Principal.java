@@ -40,7 +40,8 @@ public class Principal {
             }
         }
         //Método alternativo para não gerar erro durante a iteração do laço
-        //Sem usar removeIf ou Iterator
+        //Remove sem usar removeIf ou Iterator
+        //Laço for costuma ser mais rápido para longas listas
         if (flag) {
             removeJoao(lista, obj);
         }
@@ -57,20 +58,54 @@ public class Principal {
     }
 
     public static void concederAumento(List<Funcionario> lista) {
+
+        //Método de aumento na própria classe, sendo próprio da instância
         lista.forEach(funcionario -> funcionario.concederAumento());
     }
 
-    public static void agruparMap() {}
+    public static void agruparMap(List<Funcionario> lista) {}
 
-    public static void imprimirPorFuncao() {}
+    public static void imprimirPorFuncao(List<Funcionario> lista) {}
 
-    public static void imprimirAniversariantes() {}
+    public static void imprimirAniversariantes(List<Funcionario> lista) {}
 
-    public static void imprimirMaisVelho() {}
+    public static void imprimirMaisVelho(List<Funcionario> lista) {}
 
-    public static void imprimirListaOrdenada() {}
+    public static void imprimirListaOrdenada(List<Funcionario> lista) {
+        List<Funcionario> ordenada = lista.stream().sorted().toList();
 
-    public static void imprimirTotalSalarios() {}
+        for (Funcionario funcionario : ordenada) {
+            System.out.println(funcionario);
+        }
+    }
 
-    public static void imprimirPercentualPorSalarioMinimo() {}
+    public static void imprimirTotalSalarios(List<Funcionario> lista) {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (Funcionario funcionario : lista) {
+
+            total = total.add(funcionario.getSalario());
+        }
+
+        System.out.println("O total de salários é: " + total);
+    }
+
+    public static void imprimirPercentualPorSalarioMinimo(List<Funcionario> lista) {
+        BigDecimal baseMinimo = new BigDecimal("1212.00");
+
+        for (Funcionario funcionario : lista) {
+            BigDecimal salariosMinimos = funcionario.getSalario().divide(baseMinimo);
+
+            System.out.println("O funcionário " +
+                    funcionario.getNome() + " " +
+            "recebe " + salariosMinimos + ", tendo a função de: " +
+                    funcionario.getFuncao());
+        }
+    }
+
+    private static void formataSalario(BigDecimal salarioBase) {
+        String salarioString = salarioBase.toString();
+
+        salarioString.
+    }
 }
