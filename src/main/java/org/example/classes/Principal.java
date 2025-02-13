@@ -106,6 +106,17 @@ public class Principal {
     private static void formataSalario(BigDecimal salarioBase) {
         String salarioString = salarioBase.toString();
 
-        salarioString.
+
+    }
+
+    public static String formataData(LocalDate date) {
+        //Lógica para não utilizar lib
+        String data = date.toString();
+
+        String ano = data.substring(0,4);
+        String mes = data.substring(5,7);
+        String dia = data.substring(8,10);
+
+        return dia + "/" + mes + "/" + ano;
     }
 }

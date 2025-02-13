@@ -34,4 +34,11 @@ public class Funcionario extends Pessoa {
         this.funcao = funcao;
     }
 
+    @Override
+    public String toString() {
+        return "Nome: " + getNome() + ", " +
+                "Nascimento: " + Principal.formataData(getDataNascimento()) + ", " +
+                "Salario: " + salario + ", " +
+                "funcao: '" + funcao + ".";
+    }
 }
