@@ -15,10 +15,6 @@ public class Funcionario extends Pessoa {
         this.funcao = funcao;
     }
 
-    public void concederAumento() {
-        this.salario = this.salario.multiply(new BigDecimal("1.1"));
-    }
-
     public Integer getIdade() {
         Integer idade = Period.between(this.getDataNascimento(), LocalDate.now()).getYears();
         return idade;

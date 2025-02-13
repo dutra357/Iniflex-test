@@ -1,7 +1,8 @@
 package org.example.classes;
 
+import org.example.Main;
+
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -39,7 +40,7 @@ public class Principal {
             }
         }
         //Método alternativo para não gerar erro ao remover durante a iteração do laço
-        //Sem usar removeIf ou Iterator
+        //Sem usar removeIf ou criar um Iterator
         if (remover) {
             removeJoao(lista, obj);
         }
@@ -47,6 +48,7 @@ public class Principal {
 
     private static void removeJoao(List<Funcionario> lista, Funcionario obj) {
         lista.remove(obj);
+        System.out.println("Joao removido da lista!");
     }
 
     public static void imprimirTodos(List<Funcionario> lista) {
@@ -57,28 +59,66 @@ public class Principal {
 
     public static void concederAumento(List<Funcionario> lista) {
 
-        //Método de aumento na própria classe, sendo próprio da instância
-        lista.forEach(funcionario -> funcionario.concederAumento());
+        for (Funcionario funcionario : lista) {
+            funcionario.setSalario(
+                    funcionario.getSalario().multiply(new BigDecimal("1.1"))
+            );
+        }
     }
 
-    public static void agruparMap(List<Funcionario> lista) {}
+    public static void agruparMap(List<Funcionario> lista) {
+
+        Map<String, Funcionario> funcionarioMap = new HashMap<>();
+
+        
+    }
 
     public static void imprimirPorFuncao(List<Funcionario> lista) {}
 
-    public static void imprimirAniversariantes(List<Funcionario> lista) {}
+    public static void imprimirAniversariantes(List<Funcionario> lista) {
+
+        //Utiliza lista para poder notificar a ausência de aniversariantes - sem usar stream
+        List<Funcionario> aniversariantes = new ArrayList<>();
+
+        for (Funcionario funcionario : lista) {
+            if(verificaDia(funcionario.getDataNascimento())) {
+                aniversariantes.add(funcionario);
+            }
+        }
+
+        if (aniversariantes.isEmpty()) {
+            System.out.println("Não há aniversariantes para os dias 10 ou 12.");
+        } else {
+            aniversariantes.forEach(aniversariante -> System.out.println(aniversariante));
+        }
+    }
+
+    private static boolean verificaDia(LocalDate date) {
+        String data = date.toString();
+        String dia = data.substring(8,10);
+
+        if (dia.equals("10") || dia.equals("12")) {
+            return true;
+        }
+
+        return false;
+    }
 
     public static void imprimirMaisVelho(List<Funcionario> lista) {
         Funcionario maisVelho = null;
         Integer idade = 0;
 
+        //Laço for para nao usar stream.map
         for (Funcionario funcionario : lista) {
             if (funcionario.getIdade() > idade) {
                 maisVelho = funcionario;
                 idade = funcionario.getIdade();
             }
         }
-
-        System.out.println("O funcionário mais velho é: " + maisVelho.getNome() + ", com " + maisVelho.getIdade() + " anos completos.");
+        System.out.println("O funcionário mais velho é: "
+                + maisVelho.getNome()
+                + ", com " + maisVelho.getIdade()
+                + " anos completos.");
     }
 
     public static void imprimirListaOrdenada(List<Funcionario> lista) {
