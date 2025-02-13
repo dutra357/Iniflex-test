@@ -36,7 +36,11 @@ public class Principal {
         }
     }
 
-    public static void imprimirTodos() {}
+    public static void imprimirTodos(List<Funcionario> lista) {
+        for (Funcionario funcionario : lista) {
+            System.out.println(funcionario);
+        }
+    }
 
     public static void concederAumento() {}
 
