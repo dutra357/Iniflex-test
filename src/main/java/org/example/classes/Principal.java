@@ -1,12 +1,13 @@
 package org.example.classes;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.time.LocalDate;
 import java.util.*;
 
 public class Principal {
 
-    //METODS DE APOIO SETADOS PARA PRIVATE, DE USO APENAS NA CLASSE
+    //METODS DE APOIO SETADOS PARA PRIVATE PARA USO APENAS NA CLASSE
 
     public static List<Funcionario> inserirFuncionarios() {
         Funcionario maria = new Funcionario("Maria", LocalDate.of(2000, 10,18), new BigDecimal("2009.44"), "Operador");
@@ -72,13 +73,13 @@ public class Principal {
         System.out.println("Agrupando funcionários em um MAP..");
         Map<String, List<Funcionario>> meuMap = new HashMap<>();
 
-        //Set para  segregar 'funcoes' nao repetidas
+        //Set para  pegar 'funcoes' nao repetidas
         Set<String> funcoes = criaSetString(lista);
 
-        //Inicializqando um array para cada 'funçao' dentro do map
+        //Inicializqando um array para cada 'funçao' dentro do MAP
         funcoes.forEach(funcao -> meuMap.put(funcao, new ArrayList<>()));
 
-        //Busca o array de cada 'funcao' e insere o funcionario classificado
+        //Busca o array de cada 'funcao' dentro do MAP e insere o funcionario classificado
         for (Funcionario funcionario : lista) {
             List<Funcionario> listaPropria = meuMap.get(funcionario.getFuncao());
             listaPropria.add(funcionario);
@@ -106,13 +107,13 @@ public class Principal {
     private static Set<String> criaSetString(List<Funcionario> lista) {
 
         //Método de apoio para não repetir código
-        Set<String> funcoes = new HashSet<>();
+        Set<String> setFuncoes = new HashSet<>();
 
         for (Funcionario funcionario : lista) {
-            funcoes.add(funcionario.getFuncao());
+            setFuncoes.add(funcionario.getFuncao());
         }
 
-        return funcoes;
+        return setFuncoes;
     }
 
     public static void imprimirAniversariantes(List<Funcionario> lista) {
@@ -165,7 +166,12 @@ public class Principal {
     }
 
     public static void imprimirListaOrdenada(List<Funcionario> lista) {
-        List<Funcionario> ordenada = lista.stream().sorted().toList();
+
+        //Ordenando sem implementar a interface Comparable para Funcionario, com ela o sorted() não precisaria receber um Comparator
+        //NAO SEI ORDENAR SEM UTILIZAR AS BIBLIOTECAS E MÉTODOS DISPONIVEIS
+        List<Funcionario> ordenada = lista.stream()
+                .sorted(Comparator.comparing(funcionario -> funcionario.getNome()))
+                .toList();
 
         for (Funcionario funcionario : ordenada) {
             System.out.println(funcionario);
@@ -175,6 +181,7 @@ public class Principal {
     public static void imprimirTotalSalarios(List<Funcionario> lista) {
         BigDecimal total = BigDecimal.ZERO;
 
+        //Iteração simples majorando o montante do zero
         for (Funcionario funcionario : lista) {
             total = total.add(funcionario.getSalario());
         }
@@ -186,7 +193,8 @@ public class Principal {
         BigDecimal baseMinimo = new BigDecimal("1212.00");
 
         for (Funcionario funcionario : lista) {
-            BigDecimal salariosMinimos = funcionario.getSalario().divide(baseMinimo);
+            //Intelliji já sugere o metodo .divide() com arredondamento do BigDecimal, onde sem ele da erro.
+            BigDecimal salariosMinimos = funcionario.getSalario().divide(baseMinimo, 2);
 
             System.out.println("O funcionário " +
                     funcionario.getNome() + " " +
@@ -203,6 +211,7 @@ public class Principal {
         int base = sal.length();
 
         if (sal.length() > 6) {
+            //Decotando as strings de interesse para retornar a concatenação
             String inicio = sal.substring(0, base - 6);
             String fim = sal.substring(base - 6, base);
 
