@@ -2,6 +2,7 @@ package org.example.classes;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 
 public class Funcionario extends Pessoa {
     private BigDecimal salario;
@@ -16,6 +17,11 @@ public class Funcionario extends Pessoa {
 
     public void concederAumento() {
         this.salario = this.salario.multiply(new BigDecimal("1.1"));
+    }
+
+    public Integer getIdade() {
+        Integer idade = Period.between(this.getDataNascimento(), LocalDate.now()).getYears();
+        return idade;
     }
 
     public BigDecimal getSalario() {
@@ -38,7 +44,7 @@ public class Funcionario extends Pessoa {
     public String toString() {
         return "Nome: " + getNome() + ", " +
                 "Nascimento: " + Principal.formataData(getDataNascimento()) + ", " +
-                "Salario: " + salario + ", " +
-                "funcao: '" + funcao + ".";
+                "Salario: " + Principal.formataSalario(salario) + ", " +
+                "funcao: " + funcao + ".";
     }
 }

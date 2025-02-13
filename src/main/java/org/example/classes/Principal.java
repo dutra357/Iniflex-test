@@ -1,10 +1,9 @@
 package org.example.classes;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Principal {
 
@@ -28,21 +27,20 @@ public class Principal {
 
     public static void removerJoao(List<Funcionario> lista) {
 
-        boolean flag = false;
+        boolean remover = false;
         Funcionario obj = null;
 
         for (Funcionario funcionario : lista) {
-            if (funcionario.getNome() == "Joao") {
+            if (funcionario.getNome().equals("Joao")) {
 
                 System.out.println("Removendo Joao...");
-                flag = true;
+                remover = true;
                 obj = funcionario;
             }
         }
-        //Método alternativo para não gerar erro durante a iteração do laço
-        //Remove sem usar removeIf ou Iterator
-        //Laço for costuma ser mais rápido para longas listas
-        if (flag) {
+        //Método alternativo para não gerar erro ao remover durante a iteração do laço
+        //Sem usar removeIf ou Iterator
+        if (remover) {
             removeJoao(lista, obj);
         }
     }
@@ -69,7 +67,19 @@ public class Principal {
 
     public static void imprimirAniversariantes(List<Funcionario> lista) {}
 
-    public static void imprimirMaisVelho(List<Funcionario> lista) {}
+    public static void imprimirMaisVelho(List<Funcionario> lista) {
+        Funcionario maisVelho = null;
+        Integer idade = 0;
+
+        for (Funcionario funcionario : lista) {
+            if (funcionario.getIdade() > idade) {
+                maisVelho = funcionario;
+                idade = funcionario.getIdade();
+            }
+        }
+
+        System.out.println("O funcionário mais velho é: " + maisVelho.getNome() + ", com " + maisVelho.getIdade() + " anos completos.");
+    }
 
     public static void imprimirListaOrdenada(List<Funcionario> lista) {
         List<Funcionario> ordenada = lista.stream().sorted().toList();
@@ -83,11 +93,10 @@ public class Principal {
         BigDecimal total = BigDecimal.ZERO;
 
         for (Funcionario funcionario : lista) {
-
             total = total.add(funcionario.getSalario());
         }
 
-        System.out.println("O total de salários é: " + total);
+        System.out.println("O total de salários é: " + formataSalario(total));
     }
 
     public static void imprimirPercentualPorSalarioMinimo(List<Funcionario> lista) {
@@ -103,14 +112,26 @@ public class Principal {
         }
     }
 
-    private static void formataSalario(BigDecimal salarioBase) {
-        String salarioString = salarioBase.toString();
+    public static String formataSalario(BigDecimal salarioBase) {
 
+        //Lógica sem utilizar lib ou regex
+        //Sem ponto para milhão (nao cobrado)
+        String sal = salarioBase.toString().replace('.', ',');
+        int base = sal.length();
 
+        if (sal.length() > 6) {
+            String inicio = sal.substring(0, base - 6);
+            String fim = sal.substring(base - 6, base);
+
+            return inicio + "." + fim;
+        } else {
+            return sal;
+        }
     }
 
     public static String formataData(LocalDate date) {
-        //Lógica para não utilizar lib
+
+        //Lógica sem utilizar lib ou regex
         String data = date.toString();
 
         String ano = data.substring(0,4);

@@ -13,6 +13,7 @@ public class Main {
 
         List<Funcionario> base = Principal.inserirFuncionarios();
 
-        Principal.imprimirTotalSalarios(base);
+        Principal.imprimirMaisVelho(base);
+
     }
 }
