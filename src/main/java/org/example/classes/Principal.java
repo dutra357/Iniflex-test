@@ -1,12 +1,12 @@
 package org.example.classes;
 
-import org.example.Main;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
 public class Principal {
+
+    //METODS DE APOIO SETADOS PARA PRIVATE, DE USO APENAS NA CLASSE
 
     public static List<Funcionario> inserirFuncionarios() {
         Funcionario maria = new Funcionario("Maria", LocalDate.of(2000, 10,18), new BigDecimal("2009.44"), "Operador");
@@ -68,12 +68,52 @@ public class Principal {
 
     public static void agruparMap(List<Funcionario> lista) {
 
-        Map<String, Funcionario> funcionarioMap = new HashMap<>();
+        //Solução sem utilizar stream
+        System.out.println("Agrupando funcionários em um MAP..");
+        Map<String, List<Funcionario>> meuMap = new HashMap<>();
 
-        
+        //Set para  segregar 'funcoes' nao repetidas
+        Set<String> funcoes = criaSetString(lista);
+
+        //Inicializqando um array para cada 'funçao' dentro do map
+        funcoes.forEach(funcao -> meuMap.put(funcao, new ArrayList<>()));
+
+        //Busca o array de cada 'funcao' e insere o funcionario classificado
+        for (Funcionario funcionario : lista) {
+            List<Funcionario> listaPropria = meuMap.get(funcionario.getFuncao());
+            listaPropria.add(funcionario);
+        }
     }
 
-    public static void imprimirPorFuncao(List<Funcionario> lista) {}
+    public static void imprimirPorFuncao(List<Funcionario> lista) {
+
+        //Item 3.6 nao especifica se é para usar o MAP anterior ou criar um novo método
+        //Para diversificar, crio um novo método para não imprimir o MAP anterior
+        Set<String> funcoes = criaSetString(lista);
+
+        for (String funcao : funcoes) {
+
+            System.out.println("########################");
+            System.out.println("Listando funcionarios: " + funcao);
+            for (Funcionario funcionario : lista) {
+                if (funcionario.getFuncao().equals(funcao)) {
+                    System.out.println(funcionario);
+                }
+            }
+        }
+    }
+
+    private static Set<String> criaSetString(List<Funcionario> lista) {
+
+        //Método de apoio para não repetir código
+        Set<String> funcoes = new HashSet<>();
+
+        for (Funcionario funcionario : lista) {
+            funcoes.add(funcionario.getFuncao());
+        }
+
+        return funcoes;
+    }
 
     public static void imprimirAniversariantes(List<Funcionario> lista) {
 
@@ -94,6 +134,9 @@ public class Principal {
     }
 
     private static boolean verificaDia(LocalDate date) {
+
+        //Método de apoio para aniversariante
+        //Com a exclusao de JOAO deve retornar 'false', pois nao ha cadastro com o dia 10
         String data = date.toString();
         String dia = data.substring(8,10);
 
@@ -108,7 +151,7 @@ public class Principal {
         Funcionario maisVelho = null;
         Integer idade = 0;
 
-        //Laço for para nao usar stream.map
+        //Laço for para nao usar stream.max
         for (Funcionario funcionario : lista) {
             if (funcionario.getIdade() > idade) {
                 maisVelho = funcionario;

@@ -30,5 +30,14 @@ public class Main {
         System.out.println("-------------------");
         System.out.println("Aniversariantes: ");
         Principal.imprimirAniversariantes(base);
+        System.out.println("-------------------");
+        Principal.agruparMap(base);
+        System.out.println("-------------------");
+        Principal.imprimirPercentualPorSalarioMinimo(base);
+        System.out.println("-------------------");
+        Principal.imprimirTotalSalarios(base);
+        System.out.println("-------------------");
+        Principal.imprimirPorFuncao(base);
+        System.out.println("-------------------");
     }
 }
