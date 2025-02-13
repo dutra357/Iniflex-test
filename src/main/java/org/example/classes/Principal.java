@@ -27,13 +27,27 @@ public class Principal {
     }
 
     public static void removerJoao(List<Funcionario> lista) {
+
+        boolean flag = false;
+        Funcionario obj = null;
+
         for (Funcionario funcionario : lista) {
             if (funcionario.getNome() == "Joao") {
 
                 System.out.println("Removendo Joao...");
-                lista.remove(funcionario);
+                flag = true;
+                obj = funcionario;
             }
         }
+        //Método alternativo para não gerar erro durante a iteração do laço
+        //Sem usar removeIf ou Iterator
+        if (flag) {
+            removeJoao(lista, obj);
+        }
+    }
+
+    private static void removeJoao(List<Funcionario> lista, Funcionario obj) {
+        lista.remove(obj);
     }
 
     public static void imprimirTodos(List<Funcionario> lista) {
@@ -42,7 +56,9 @@ public class Principal {
         }
     }
 
-    public static void concederAumento() {}
+    public static void concederAumento(List<Funcionario> lista) {
+        lista.forEach(funcionario -> funcionario.concederAumento());
+    }
 
     public static void agruparMap() {}
 

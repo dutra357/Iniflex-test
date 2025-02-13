@@ -14,6 +14,10 @@ public class Funcionario extends Pessoa {
         this.funcao = funcao;
     }
 
+    public void concederAumento() {
+        this.salario = this.salario.multiply(new BigDecimal("1.1"));
+    }
+
     public BigDecimal getSalario() {
         return salario;
     }
